@@ -14,4 +14,12 @@ public class VendingMachineTest {
         assertThat(vendingMachine.hasMoreOrEqualAmountThan(amountToEmbed)).isTrue();
         assertThat(vendingMachine.hasMoreOrEqualAmountThan(amountToEmbed + 1)).isFalse();
     }
+
+    @Test
+    void 상품명_가격_수량으로_상품을_추가한다() {
+        VendingMachine vendingMachine = new VendingMachine(10000);
+        vendingMachine.fillProduct("상품명", 2000, 1);
+
+        assertThat(vendingMachine.hasProduct("상품명")).isTrue();
+    }
 }
