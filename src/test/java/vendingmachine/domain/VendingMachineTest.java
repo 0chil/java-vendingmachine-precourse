@@ -1,14 +1,17 @@
 package vendingmachine.domain;
 
-import org.assertj.core.api.Assertions;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 
 public class VendingMachineTest {
 
     @Test
     void 보유금액으로_동전을_무작위로_생성한다() {
-        VendingMachine vendingMachine = new VendingMachine(10000);
+        int amountToEmbed = 10000;
+        VendingMachine vendingMachine = new VendingMachine(amountToEmbed);
 
-        Assertions.assertThat(vendingMachine.hasMoreOrEqualCoinsThan(10000)).isTrue();
+        assertThat(vendingMachine.hasMoreOrEqualAmountThan(amountToEmbed)).isTrue();
+        assertThat(vendingMachine.hasMoreOrEqualAmountThan(amountToEmbed + 1)).isFalse();
     }
 }
