@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import vendingmachine.constant.Coin;
@@ -12,11 +11,11 @@ import vendingmachine.constant.Coin;
 public class VendingMachine {
     private final int embeddedAmount;
     private int insertedAmount = 0;
-    private final Map<String, Product> products;
+    private final Products products2;
 
-    public VendingMachine(int embeddedAmount) {
+    public VendingMachine(int embeddedAmount, Products products) {
         this.embeddedAmount = embeddedAmount;
-        this.products = new HashMap<>();
+        this.products2 = products;
     }
 
     public boolean hasMoreOrEqualAmountThan(int amount) {
@@ -27,19 +26,8 @@ public class VendingMachine {
         insertedAmount += amount;
     }
 
-    public void fillProduct(String name, int price, int count) {
-        validateNotExists(name);
-        products.put(name, new Product(name, price, count));
-    }
-
-    private void validateNotExists(String productName) {
-        if (hasProduct(productName)) {
-            throw new IllegalArgumentException("이미 있는 상품은 추가할 수 없습니다");
-        }
-    }
-
     public boolean hasProduct(String name) {
-        return Objects.nonNull(products.get(name));
+        return products2.hasProduct(name);
     }
 
     public int insertedAmount() {

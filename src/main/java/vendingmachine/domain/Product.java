@@ -11,4 +11,8 @@ public class Product {
         this.price = price;
         this.count = count;
     }
+
+    public String getName() {
+        return name;
+    }
 }
