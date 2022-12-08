@@ -18,7 +18,14 @@ public class VendingMachine {
     }
 
     public void fillProduct(String name, int price, int count) {
+        validateNotExists(name);
         products.put(name, new Product(name, price, count));
+    }
+
+    private void validateNotExists(String productName) {
+        if (hasProduct(productName)) {
+            throw new IllegalArgumentException("이미 있는 상품은 추가할 수 없습니다");
+        }
     }
 
     public boolean hasProduct(String name) {

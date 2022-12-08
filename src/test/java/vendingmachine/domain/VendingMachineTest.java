@@ -1,6 +1,7 @@
 package vendingmachine.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 import org.junit.jupiter.api.Test;
 
@@ -21,5 +22,14 @@ public class VendingMachineTest {
         vendingMachine.fillProduct("상품명", 2000, 1);
 
         assertThat(vendingMachine.hasProduct("상품명")).isTrue();
+    }
+
+    @Test
+    void 이미_있는_상품은_추가할_수_없다() {
+        VendingMachine vendingMachine = new VendingMachine(10000);
+        vendingMachine.fillProduct("상품명", 2000, 1);
+
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> vendingMachine.fillProduct("상품명", 2000, 1));
     }
 }
