@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import vendingmachine.Product;
-
 public class VendingMachine {
     private final int embeddedAmount;
     private final Map<String, Product> products;
