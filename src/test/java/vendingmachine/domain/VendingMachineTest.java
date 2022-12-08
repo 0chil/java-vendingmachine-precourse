@@ -32,4 +32,12 @@ public class VendingMachineTest {
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> vendingMachine.fillProduct("상품명", 2000, 1));
     }
+
+    @Test
+    void 금액을_투입할_수_있다() {
+        VendingMachine vendingMachine = new VendingMachine(10000);
+        vendingMachine.insertAmount(2000);
+
+        assertThat(vendingMachine.insertedAmount()).isEqualTo(2000);
+    }
 }

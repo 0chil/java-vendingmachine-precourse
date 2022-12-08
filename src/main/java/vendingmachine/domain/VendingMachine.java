@@ -6,6 +6,7 @@ import java.util.Objects;
 
 public class VendingMachine {
     private final int embeddedAmount;
+    private int insertedAmount = 0;
     private final Map<String, Product> products;
 
     public VendingMachine(int embeddedAmount) {
@@ -15,6 +16,10 @@ public class VendingMachine {
 
     public boolean hasMoreOrEqualAmountThan(int amount) {
         return amount <= embeddedAmount;
+    }
+
+    public void insertAmount(int amount) {
+        insertedAmount += amount;
     }
 
     public void fillProduct(String name, int price, int count) {
@@ -30,5 +35,9 @@ public class VendingMachine {
 
     public boolean hasProduct(String name) {
         return Objects.nonNull(products.get(name));
+    }
+
+    public int insertedAmount() {
+        return insertedAmount;
     }
 }
