@@ -1,5 +1,9 @@
 package vendingmachine.constant;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public enum Coin {
     COIN_500(500),
     COIN_100(100),
@@ -15,4 +19,19 @@ public enum Coin {
     public int getAmount() {
         return amount;
     }
+
+    public int countUpUntil(int givenAmount) {
+        return givenAmount / amount;
+    }
+
+    public int times(int multiplier) {
+        return amount * multiplier;
+    }
+
+    public static List<Coin> valuesInDescendingOrder() {
+        return Arrays.stream(values())
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
 }

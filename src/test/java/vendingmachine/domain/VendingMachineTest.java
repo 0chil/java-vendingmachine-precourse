@@ -26,7 +26,7 @@ public class VendingMachineTest {
         VendingMachine vendingMachine = new VendingMachine(10000, new Products());
         vendingMachine.insertAmount(2000);
 
-        assertThat(vendingMachine.insertedAmount()).isEqualTo(2000);
+        assertThat(vendingMachine.getLeftAmount()).isEqualTo(2000);
     }
 
     @Test
@@ -39,8 +39,10 @@ public class VendingMachineTest {
                 Map.entry(Coin.COIN_50, 1),
                 Map.entry(Coin.COIN_10, 0)
         );
+        Changes changes = vendingMachine.drawChanges();
 
-        assertThat(vendingMachine.drawChanges()).containsAllEntriesOf(expectedChanges);
+        assertThat(expectedChanges)
+                .allSatisfy((coin, count) -> assertThat(changes.getCountOf(coin)).isEqualTo(count));
     }
 
     @Test
