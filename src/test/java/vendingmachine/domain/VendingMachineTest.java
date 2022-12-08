@@ -3,7 +3,11 @@ package vendingmachine.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
+import java.util.Map;
+
 import org.junit.jupiter.api.Test;
+
+import vendingmachine.constant.Coin;
 
 public class VendingMachineTest {
 
@@ -39,5 +43,19 @@ public class VendingMachineTest {
         vendingMachine.insertAmount(2000);
 
         assertThat(vendingMachine.insertedAmount()).isEqualTo(2000);
+    }
+
+    @Test
+    void 투입금액을_최소개수의_동전으로_반환한다() {
+        VendingMachine vendingMachine = new VendingMachine(10000);
+        vendingMachine.insertAmount(450);
+        Map<Coin, Integer> expectedChanges = Map.ofEntries(
+                Map.entry(Coin.COIN_500, 0),
+                Map.entry(Coin.COIN_100, 4),
+                Map.entry(Coin.COIN_50, 1),
+                Map.entry(Coin.COIN_10, 0)
+        );
+
+        assertThat(vendingMachine.drawChanges()).containsAllEntriesOf(expectedChanges);
     }
 }
