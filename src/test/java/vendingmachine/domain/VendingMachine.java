@@ -7,7 +7,7 @@ public class VendingMachine {
         this.embeddedAmount = embeddedAmount;
     }
 
-    public boolean hasMoreOrEqualCoinsThan(int amount) {
-        return amount >= embeddedAmount;
+    public boolean hasMoreOrEqualAmountThan(int amount) {
+        return amount <= embeddedAmount;
     }
 }
