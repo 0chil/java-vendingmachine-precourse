@@ -11,11 +11,11 @@ import vendingmachine.constant.Coin;
 public class VendingMachine {
     private final int embeddedAmount;
     private int insertedAmount = 0;
-    private final Products products2;
+    private final Products products;
 
     public VendingMachine(int embeddedAmount, Products products) {
         this.embeddedAmount = embeddedAmount;
-        this.products2 = products;
+        this.products = products;
     }
 
     public boolean hasMoreOrEqualAmountThan(int amount) {
@@ -24,10 +24,6 @@ public class VendingMachine {
 
     public void insertAmount(int amount) {
         insertedAmount += amount;
-    }
-
-    public boolean hasProduct(String name) {
-        return products2.hasProduct(name);
     }
 
     public int insertedAmount() {
@@ -46,5 +42,14 @@ public class VendingMachine {
             changesLeft %= coin.getAmount();
         }
         return changes;
+    }
+
+    public void purchaseProduct(String name) {
+        products.sell(name);
+        insertedAmount -= products.priceOf(name);
+    }
+
+    public boolean hasStockOf(String name) {
+        return !products.isSoldOut(name);
     }
 }

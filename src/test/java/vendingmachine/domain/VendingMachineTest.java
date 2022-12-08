@@ -1,7 +1,9 @@
 package vendingmachine.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
+import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
@@ -39,5 +41,25 @@ public class VendingMachineTest {
         );
 
         assertThat(vendingMachine.drawChanges()).containsAllEntriesOf(expectedChanges);
+    }
+
+    @Test
+    void 상품을_구매한다() {
+        Product coke = new Product("콜라", 2000, 1);
+        Products products = new Products(List.of(coke));
+        VendingMachine vendingMachine = new VendingMachine(10000, products);
+        vendingMachine.insertAmount(2000);
+        vendingMachine.purchaseProduct("콜라");
+
+        assertThat(vendingMachine.hasStockOf("콜라")).isFalse();
+    }
+
+    @Test
+    void 상품이_없으면_오류를_던진다() {
+        Products products = new Products(List.of(new Product("콜라", 2000, 1)));
+        VendingMachine vendingMachine = new VendingMachine(10000, products);
+        vendingMachine.insertAmount(2000);
+
+        assertThatIllegalArgumentException().isThrownBy(() -> vendingMachine.purchaseProduct("사이다"));
     }
 }
