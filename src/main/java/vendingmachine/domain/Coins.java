@@ -4,17 +4,26 @@ import java.util.EnumMap;
 import java.util.Map;
 
 import vendingmachine.constant.Coin;
+import vendingmachine.domain.vo.Count;
 
 public class Coins {
 
-    private final Map<Coin, Integer> coinCounts;
+    private final Map<Coin, Count> coinCounts;
 
-    public Coins(Map<Coin, Integer> coinCounts) {
-        this.coinCounts = new EnumMap<>(coinCounts);
+    Coins(Map<Coin, Count> coinCounts) {
+        this.coinCounts = coinCounts;
     }
 
-    public Coins subtract(Coin coin, int count) {
-        return changeCountOf(coin, countOf(coin) - count);
+    public static Coins create(Map<Coin, Integer> newCoins) {
+        Map<Coin, Count> countMap = new EnumMap<>(Coin.class);
+        for (Map.Entry<Coin, Integer> entry : newCoins.entrySet()) {
+            countMap.put(entry.getKey(), new Count(entry.getValue()));
+        }
+        return new Coins(countMap);
+    }
+
+    public Coins subtract(Coin coin, Count count) {
+        return changeCountOf(coin, countOf(coin).decrease(count));
     }
 
     public Coins subtract(Coins coins) {
@@ -25,27 +34,24 @@ public class Coins {
         return result;
     }
 
-    public int countOf(Coin coin) {
-        return coinCounts.getOrDefault(coin, 0);
+    public int getCount(Coin coin) {
+        return countOf(coin).count();
     }
 
-    private Coins changeCountOf(Coin coin, int count) {
-        validateNotNegative(count);
-        Map<Coin, Integer> newCoins = new EnumMap<>(coinCounts);
+    private Count countOf(Coin coin) {
+        return coinCounts.getOrDefault(coin, new Count(0));
+    }
+
+    private Coins changeCountOf(Coin coin, Count count) {
+        Map<Coin, Count> newCoins = new EnumMap<>(coinCounts);
         newCoins.put(coin, count);
         return new Coins(newCoins);
-    }
-
-    private void validateNotNegative(int number) {
-        if (number < 0) {
-            throw new IllegalArgumentException("동전 개수는 음수가 될 수 없습니다");
-        }
     }
 
     public Money sum() {
         int sum = 0;
         for (Coin coin : coinCounts.keySet()) {
-            sum += coin.times(countOf(coin));
+            sum += coin.times(getCount(coin));
         }
         return new Money(sum);
     }

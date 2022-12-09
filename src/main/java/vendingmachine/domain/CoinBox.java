@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import vendingmachine.constant.Coin;
+import vendingmachine.domain.vo.Count;
 
 public class CoinBox {
     private Coins coins;
@@ -14,18 +15,18 @@ public class CoinBox {
     }
 
     public CoinBox(Money money) {
-        Map<Coin, Integer> coinCounts = new EnumMap<>(Coin.class);
+        Map<Coin, Count> coinCounts = new EnumMap<>(Coin.class);
         while (money.amount() != 0) {
             Coin coin = Coin.pickRandomLessOrEqualThan(money.amount());
-            int previousCount = coinCounts.getOrDefault(coin, 0);
-            coinCounts.put(coin, previousCount + 1);
+            Count previousCount = coinCounts.getOrDefault(coin, new Count());
+            coinCounts.put(coin, previousCount.increase());
             money = money.subtract(coin.amount());
         }
         this.coins = new Coins(coinCounts);
     }
 
     CoinBox(Map<Coin, Integer> coinCounts) {
-        this.coins = new Coins(coinCounts);
+        this.coins = Coins.create(coinCounts);
     }
 
     public Money sum() {
@@ -33,23 +34,23 @@ public class CoinBox {
     }
 
     Coins drawChanges(Money requestedMoney) {
-        Coins coinChanges = new Coins(getChangesFor(requestedMoney));
+        Coins coinChanges = new Coins(getChangesFor(requestedMoney.amount()));
         coins = coins.subtract(coinChanges);
         return coinChanges;
     }
 
-    private Map<Coin, Integer> getChangesFor(Money requestedAmount) {
-        Map<Coin, Integer> changes = new HashMap<>();
+    private Map<Coin, Count> getChangesFor(int requestedAmount) {
+        Map<Coin, Count> changes = new HashMap<>();
         for (Coin coin : Coin.valuesInDescendingOrder()) {
-            int drawCount = drawableCountOf(coin, requestedAmount.amount());
-            requestedAmount = requestedAmount.subtract(coin.times(drawCount));
-            changes.put(coin, drawCount);
+            int drawCount = drawableCountOf(coin, requestedAmount);
+            requestedAmount -= coin.times(drawCount);
+            changes.put(coin, new Count(drawCount));
         }
         return changes;
     }
 
     public int countOf(Coin coin) {
-        return coins.countOf(coin);
+        return coins.getCount(coin);
     }
 
     private int drawableCountOf(Coin coin, int requestedAmount) {

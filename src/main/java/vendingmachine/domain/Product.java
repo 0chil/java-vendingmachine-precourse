@@ -1,30 +1,25 @@
 package vendingmachine.domain;
 
+import vendingmachine.domain.vo.Count;
+
 public class Product {
 
     private final String name;
-    private final int price;
-    private int count;
+    private final Money price;
+    private Count count;
 
     public Product(String name, int price, int count) {
         this.name = name;
-        this.price = price;
-        this.count = count;
+        this.price = new Money(price);
+        this.count = new Count(count);
     }
 
     public void sell() {
-        validateNotSoldOut();
-        count -= 1;
-    }
-
-    private void validateNotSoldOut() {
-        if (isSoldOut()) {
-            throw new IllegalArgumentException("재고가 소진된 상품입니다");
-        }
+        count = count.decrease();
     }
 
     public boolean isSoldOut() {
-        return count == 0;
+        return count.isZero();
     }
 
     public String getName() {
@@ -32,6 +27,6 @@ public class Product {
     }
 
     public int getPrice() {
-        return price;
+        return price.amount();
     }
 }

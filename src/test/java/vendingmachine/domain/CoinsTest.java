@@ -14,6 +14,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import vendingmachine.constant.Coin;
+import vendingmachine.domain.vo.Count;
 
 public class CoinsTest {
 
@@ -21,31 +22,31 @@ public class CoinsTest {
     @CsvSource(value = {"5,0", "3,2"})
     void 동전을_뺄_수_있다(int subtractCount, int expectedCount) {
         Map<Coin, Integer> coinMap = ofEntries(entry(COIN_100, 5));
-        Coins coins = new Coins(coinMap).subtract(COIN_100, subtractCount);
+        Coins coins = Coins.create(coinMap).subtract(COIN_100, new Count(subtractCount));
 
-        assertThat(coins.countOf(COIN_100)).isEqualTo(expectedCount);
+        assertThat(coins.getCount(COIN_100)).isEqualTo(expectedCount);
     }
 
     @Test
     void 가진_동전_이상으로_뺄_수_없다() {
         Map<Coin, Integer> coinMap = ofEntries(entry(COIN_100, 5));
-        Coins coins = new Coins(coinMap);
+        Coins coins = Coins.create(coinMap);
 
-        assertThatIllegalArgumentException().isThrownBy(() -> coins.subtract(COIN_100, 6));
+        assertThatIllegalArgumentException().isThrownBy(() -> coins.subtract(COIN_100, new Count(6)));
     }
 
     @Test
     void 동전이_몇_개인지_알_수_있다() {
         Map<Coin, Integer> coinMap = ofEntries(entry(COIN_100, 5));
-        Coins coins = new Coins(coinMap);
+        Coins coins = Coins.create(coinMap);
 
-        assertThat(coins.countOf(COIN_100)).isEqualTo(5);
+        assertThat(coins.getCount(COIN_100)).isEqualTo(5);
     }
 
     @Test
     void 총_금액을_알_수_있다() {
         Map<Coin, Integer> coinMap = ofEntries(entry(COIN_100, 5), entry(COIN_10, 5));
-        Coins coins = new Coins(coinMap);
+        Coins coins = Coins.create(coinMap);
 
         assertThat(coins.sum()).isEqualTo(new Money(550));
     }

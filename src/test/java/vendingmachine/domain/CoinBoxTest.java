@@ -51,7 +51,7 @@ public class CoinBoxTest {
         Coins changes = coinBox.drawChanges(new Money(450));
 
         assertThat(expectedChanges)
-                .allSatisfy((coin, count) -> assertThat(changes.countOf(coin)).isEqualTo(count));
+                .allSatisfy((coin, count) -> assertThat(changes.getCount(coin)).isEqualTo(count));
     }
 
     @Test
@@ -72,7 +72,7 @@ public class CoinBoxTest {
         Coins changes = coinBox.drawChanges(new Money(450));
 
         assertThat(expectedChanges)
-                .allSatisfy((coin, count) -> assertThat(changes.countOf(coin)).isEqualTo(count));
+                .allSatisfy((coin, count) -> assertThat(changes.getCount(coin)).isEqualTo(count));
     }
 
     @Test

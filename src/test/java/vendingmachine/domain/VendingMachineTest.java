@@ -33,7 +33,7 @@ public class VendingMachineTest {
         Coins changes = vendingMachine.drawChanges();
 
         assertThat(expectedChanges)
-                .allSatisfy((coin, count) -> assertThat(changes.countOf(coin)).isEqualTo(count));
+                .allSatisfy((coin, count) -> assertThat(changes.getCount(coin)).isEqualTo(count));
     }
 
     @Test
