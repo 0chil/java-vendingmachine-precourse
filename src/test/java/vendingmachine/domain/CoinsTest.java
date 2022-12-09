@@ -47,6 +47,6 @@ public class CoinsTest {
         Map<Coin, Integer> coinMap = ofEntries(entry(COIN_100, 5), entry(COIN_10, 5));
         Coins coins = new Coins(coinMap);
 
-        assertThat(coins.sum()).isEqualTo(550);
+        assertThat(coins.sum()).isEqualTo(new Money(550));
     }
 }

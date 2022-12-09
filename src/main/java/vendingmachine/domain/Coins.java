@@ -42,11 +42,11 @@ public class Coins {
         }
     }
 
-    public int sum() {
+    public Money sum() {
         int sum = 0;
         for (Coin coin : coinCounts.keySet()) {
             sum += coin.times(countOf(coin));
         }
-        return sum;
+        return new Money(sum);
     }
 }

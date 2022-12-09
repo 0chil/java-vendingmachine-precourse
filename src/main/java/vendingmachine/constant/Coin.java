@@ -18,7 +18,7 @@ public enum Coin {
         this.amount = amount;
     }
 
-    public int getAmount() {
+    public int amount() {
         return amount;
     }
 
@@ -43,7 +43,7 @@ public enum Coin {
     public static Coin pickRandomLessOrEqualThan(int amount) {
         List<Integer> pickableAmounts = Arrays.stream(values())
                 .filter(coin -> coin.isAmountLessOrEqualThan(amount))
-                .map(Coin::getAmount)
+                .map(Coin::amount)
                 .collect(Collectors.toList());
         return Coin.valueOf(Randoms.pickNumberInList(pickableAmounts));
     }

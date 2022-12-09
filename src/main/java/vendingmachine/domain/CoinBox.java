@@ -10,12 +10,16 @@ public class CoinBox {
     private Coins coins;
 
     public CoinBox(int amount) {
+        this(new Money(amount));
+    }
+
+    public CoinBox(Money money) {
         Map<Coin, Integer> coinCounts = new EnumMap<>(Coin.class);
-        while (amount != 0) {
-            Coin coin = Coin.pickRandomLessOrEqualThan(amount);
+        while (money.amount() != 0) {
+            Coin coin = Coin.pickRandomLessOrEqualThan(money.amount());
             int previousCount = coinCounts.getOrDefault(coin, 0);
             coinCounts.put(coin, previousCount + 1);
-            amount -= coin.getAmount();
+            money = money.subtract(coin.amount());
         }
         this.coins = new Coins(coinCounts);
     }
@@ -24,21 +28,21 @@ public class CoinBox {
         this.coins = new Coins(coinCounts);
     }
 
-    public int sum() {
+    public Money sum() {
         return coins.sum();
     }
 
-    Coins drawChanges(int requestedAmount) {
-        Coins coinChanges = new Coins(getChangesFor(requestedAmount));
+    Coins drawChanges(Money requestedMoney) {
+        Coins coinChanges = new Coins(getChangesFor(requestedMoney));
         coins = coins.subtract(coinChanges);
         return coinChanges;
     }
 
-    private Map<Coin, Integer> getChangesFor(int requestedAmount) {
+    private Map<Coin, Integer> getChangesFor(Money requestedAmount) {
         Map<Coin, Integer> changes = new HashMap<>();
         for (Coin coin : Coin.valuesInDescendingOrder()) {
-            int drawCount = drawableCountOf(coin, requestedAmount);
-            requestedAmount -= coin.times(drawCount);
+            int drawCount = drawableCountOf(coin, requestedAmount.amount());
+            requestedAmount = requestedAmount.subtract(coin.times(drawCount));
             changes.put(coin, drawCount);
         }
         return changes;

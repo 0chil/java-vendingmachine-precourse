@@ -12,9 +12,10 @@ public class CoinBoxTest {
 
     @Test
     void 투입금액으로_동전을_무작위로_만든다() {
-        CoinBox coinBox = new CoinBox(450);
+        Money insertedMoney = new Money(450);
+        CoinBox coinBox = new CoinBox(insertedMoney);
 
-        assertThat(coinBox.sum()).isEqualTo(450);
+        assertThat(coinBox.sum()).isEqualTo(insertedMoney);
     }
 
     @Test
@@ -25,7 +26,7 @@ public class CoinBoxTest {
                 Map.entry(Coin.COIN_50, 2),
                 Map.entry(Coin.COIN_10, 3)
         );
-        int drawAmount = 450;
+        Money drawAmount = new Money(450);
         CoinBox coinBox = new CoinBox(coinMap);
         Coins changes = coinBox.drawChanges(drawAmount);
 
@@ -47,7 +48,7 @@ public class CoinBoxTest {
                 Map.entry(Coin.COIN_10, 0)
         );
         CoinBox coinBox = new CoinBox(coinMap);
-        Coins changes = coinBox.drawChanges(450);
+        Coins changes = coinBox.drawChanges(new Money(450));
 
         assertThat(expectedChanges)
                 .allSatisfy((coin, count) -> assertThat(changes.countOf(coin)).isEqualTo(count));
@@ -68,7 +69,7 @@ public class CoinBoxTest {
                 Map.entry(Coin.COIN_10, 3)
         );
         CoinBox coinBox = new CoinBox(coinMap);
-        Coins changes = coinBox.drawChanges(450);
+        Coins changes = coinBox.drawChanges(new Money(450));
 
         assertThat(expectedChanges)
                 .allSatisfy((coin, count) -> assertThat(changes.countOf(coin)).isEqualTo(count));
@@ -89,7 +90,7 @@ public class CoinBoxTest {
                 Map.entry(Coin.COIN_10, 0)
         );
         CoinBox coinBox = new CoinBox(coinMap);
-        coinBox.drawChanges(450);
+        coinBox.drawChanges(new Money(450));
 
         assertThat(expectedCoins)
                 .allSatisfy((coin, count) -> assertThat(coinBox.countOf(coin)).isEqualTo(count));

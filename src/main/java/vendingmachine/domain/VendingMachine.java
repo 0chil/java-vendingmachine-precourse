@@ -2,7 +2,7 @@ package vendingmachine.domain;
 
 public class VendingMachine {
     private final CoinBox coinBox;
-    private int insertedAmount = 0;
+    private Money insertedMoney = new Money();
     private final Products products;
 
     public VendingMachine(CoinBox coinBox, Products products) {
@@ -11,16 +11,16 @@ public class VendingMachine {
     }
 
     public void insertAmount(int amount) {
-        insertedAmount += amount;
+        insertedMoney = insertedMoney.add(amount);
     }
 
     public Coins drawChanges() {
-        return coinBox.drawChanges(insertedAmount);
+        return coinBox.drawChanges(insertedMoney);
     }
 
     public void purchaseProduct(String name) {
         products.sell(name);
-        insertedAmount -= products.priceOf(name);
+        insertedMoney = insertedMoney.subtract(products.priceOf(name));
     }
 
     public boolean hasStockOf(String name) {
@@ -28,6 +28,6 @@ public class VendingMachine {
     }
 
     public int getLeftAmount() {
-        return insertedAmount;
+        return insertedMoney.amount();
     }
 }
