@@ -8,13 +8,13 @@ import org.junit.jupiter.api.Test;
 
 import vendingmachine.constant.Coin;
 
-public class CoinsTest {
+public class CoinBoxTest {
 
     @Test
     void 투입금액으로_동전을_무작위로_만든다() {
-        Coins coins = new Coins(450);
+        CoinBox coinBox = new CoinBox(450);
 
-        assertThat(coins.sum()).isEqualTo(450);
+        assertThat(coinBox.sum()).isEqualTo(450);
     }
 
     @Test
@@ -26,8 +26,8 @@ public class CoinsTest {
                 Map.entry(Coin.COIN_10, 3)
         );
         int drawAmount = 450;
-        Coins coins = new Coins(coinMap);
-        Coins changes = coins.drawChanges(drawAmount);
+        CoinBox coinBox = new CoinBox(coinMap);
+        CoinBox changes = coinBox.drawChanges(drawAmount);
 
         assertThat(changes.sum()).isEqualTo(drawAmount);
     }
@@ -46,8 +46,8 @@ public class CoinsTest {
                 Map.entry(Coin.COIN_50, 1),
                 Map.entry(Coin.COIN_10, 0)
         );
-        Coins coins = new Coins(coinMap);
-        Coins changes = coins.drawChanges(450);
+        CoinBox coinBox = new CoinBox(coinMap);
+        CoinBox changes = coinBox.drawChanges(450);
 
         assertThat(expectedChanges)
                 .allSatisfy((coin, count) -> assertThat(changes.countOf(coin)).isEqualTo(count));
@@ -67,8 +67,8 @@ public class CoinsTest {
                 Map.entry(Coin.COIN_50, 0),
                 Map.entry(Coin.COIN_10, 3)
         );
-        Coins coins = new Coins(coinMap);
-        Coins changes = coins.drawChanges(450);
+        CoinBox coinBox = new CoinBox(coinMap);
+        CoinBox changes = coinBox.drawChanges(450);
 
         assertThat(expectedChanges)
                 .allSatisfy((coin, count) -> assertThat(changes.countOf(coin)).isEqualTo(count));
@@ -88,10 +88,10 @@ public class CoinsTest {
                 Map.entry(Coin.COIN_50, 0),
                 Map.entry(Coin.COIN_10, 0)
         );
-        Coins coins = new Coins(coinMap);
-        coins.drawChanges(450);
+        CoinBox coinBox = new CoinBox(coinMap);
+        coinBox.drawChanges(450);
 
         assertThat(expectedCoins)
-                .allSatisfy((coin, count) -> assertThat(coins.countOf(coin)).isEqualTo(count));
+                .allSatisfy((coin, count) -> assertThat(coinBox.countOf(coin)).isEqualTo(count));
     }
 }

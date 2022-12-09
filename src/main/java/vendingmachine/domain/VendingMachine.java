@@ -1,12 +1,12 @@
 package vendingmachine.domain;
 
 public class VendingMachine {
-    private final Coins embeddedAmount;
+    private final CoinBox embeddedAmount;
     private int insertedAmount = 0;
     private final Products products;
 
     public VendingMachine(int embeddedAmount, Products products) {
-        this.embeddedAmount = new Coins(embeddedAmount);
+        this.embeddedAmount = new CoinBox(embeddedAmount);
         this.products = products;
     }
 
@@ -18,7 +18,7 @@ public class VendingMachine {
         insertedAmount += amount;
     }
 
-    public Coins drawChanges() {
+    public CoinBox drawChanges() {
         return embeddedAmount.drawChanges(insertedAmount);
     }
 

@@ -6,10 +6,10 @@ import java.util.Map;
 
 import vendingmachine.constant.Coin;
 
-public class Coins {
+public class CoinBox {
     private final Map<Coin, Integer> coinCounts;
 
-    public Coins(int amount) {
+    public CoinBox(int amount) {
         Map<Coin, Integer> coinCounts = new EnumMap<>(Coin.class);
         while (amount != 0) {
             Coin coin = Coin.pickRandomLessOrEqualThan(amount);
@@ -20,7 +20,7 @@ public class Coins {
         this.coinCounts = coinCounts;
     }
 
-    Coins(Map<Coin, Integer> coinCounts) {
+    CoinBox(Map<Coin, Integer> coinCounts) {
         this.coinCounts = new EnumMap<>(coinCounts);
     }
 
@@ -32,7 +32,7 @@ public class Coins {
         return sum;
     }
 
-    Coins drawChanges(int requestedAmount) {
+    CoinBox drawChanges(int requestedAmount) {
         Map<Coin, Integer> changes = new HashMap<>();
         for (Coin coin : Coin.valuesInDescendingOrder()) {
             int drawCount = drawableCountOf(coin, requestedAmount);
@@ -40,7 +40,7 @@ public class Coins {
             requestedAmount -= coin.times(drawCount);
             changes.put(coin, drawCount);
         }
-        return new Coins(changes);
+        return new CoinBox(changes);
     }
 
     private void minus(Coin coin, int count) {
