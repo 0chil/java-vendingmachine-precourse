@@ -9,31 +9,31 @@ public class Coins {
 
     private final Map<Coin, Integer> coinCounts;
 
-    public Coins() {
-        this(new EnumMap<>(Coin.class));
-    }
-
     public Coins(Map<Coin, Integer> coinCounts) {
         this.coinCounts = new EnumMap<>(coinCounts);
     }
 
-    public void subtract(Coin coin, int count) {
-        changeCountOf(coin, countOf(coin) - count);
+    public Coins subtract(Coin coin, int count) {
+        return changeCountOf(coin, countOf(coin) - count);
     }
 
-    public void subtract(Coins coins) {
+    public Coins subtract(Coins coins) {
+        Coins result = this;
         for (Coin coin : coins.coinCounts.keySet()) {
-            subtract(coin, coins.countOf(coin));
+            result = result.subtract(coin, coins.countOf(coin));
         }
+        return result;
     }
 
     public int countOf(Coin coin) {
         return coinCounts.getOrDefault(coin, 0);
     }
 
-    private void changeCountOf(Coin coin, int count) {
+    private Coins changeCountOf(Coin coin, int count) {
         validateNotNegative(count);
-        coinCounts.put(coin, count);
+        Map<Coin, Integer> newCoins = new EnumMap<>(coinCounts);
+        newCoins.put(coin, count);
+        return new Coins(newCoins);
     }
 
     private void validateNotNegative(int number) {

@@ -7,7 +7,7 @@ import java.util.Map;
 import vendingmachine.constant.Coin;
 
 public class CoinBox {
-    private final Coins coins;
+    private Coins coins;
 
     public CoinBox(int amount) {
         Map<Coin, Integer> coinCounts = new EnumMap<>(Coin.class);
@@ -30,7 +30,7 @@ public class CoinBox {
 
     Coins drawChanges(int requestedAmount) {
         Coins coinChanges = new Coins(getChangesFor(requestedAmount));
-        coins.subtract(coinChanges);
+        coins = coins.subtract(coinChanges);
         return coinChanges;
     }
 
@@ -42,10 +42,6 @@ public class CoinBox {
             changes.put(coin, drawCount);
         }
         return changes;
-    }
-
-    private void minus(Coin coin, int count) {
-        coins.subtract(coin, count);
     }
 
     public int countOf(Coin coin) {

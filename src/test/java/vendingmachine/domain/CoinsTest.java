@@ -21,8 +21,7 @@ public class CoinsTest {
     @CsvSource(value = {"5,0", "3,2"})
     void 동전을_뺄_수_있다(int subtractCount, int expectedCount) {
         Map<Coin, Integer> coinMap = ofEntries(entry(COIN_100, 5));
-        Coins coins = new Coins(coinMap);
-        coins.subtract(COIN_100, subtractCount);
+        Coins coins = new Coins(coinMap).subtract(COIN_100, subtractCount);
 
         assertThat(coins.countOf(COIN_100)).isEqualTo(expectedCount);
     }
