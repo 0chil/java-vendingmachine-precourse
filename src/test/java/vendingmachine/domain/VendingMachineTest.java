@@ -39,10 +39,10 @@ public class VendingMachineTest {
                 Map.entry(Coin.COIN_50, 1),
                 Map.entry(Coin.COIN_10, 0)
         );
-        Changes changes = vendingMachine.drawChanges();
+        Coins changes = vendingMachine.drawChanges();
 
         assertThat(expectedChanges)
-                .allSatisfy((coin, count) -> assertThat(changes.getCountOf(coin)).isEqualTo(count));
+                .allSatisfy((coin, count) -> assertThat(changes.countOf(coin)).isEqualTo(count));
     }
 
     @Test

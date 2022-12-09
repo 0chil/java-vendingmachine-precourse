@@ -1,25 +1,25 @@
 package vendingmachine.domain;
 
 public class VendingMachine {
-    private final int embeddedAmount;
+    private final Coins embeddedAmount;
     private int insertedAmount = 0;
     private final Products products;
 
     public VendingMachine(int embeddedAmount, Products products) {
-        this.embeddedAmount = embeddedAmount;
+        this.embeddedAmount = new Coins(embeddedAmount);
         this.products = products;
     }
 
     public boolean hasMoreOrEqualAmountThan(int amount) {
-        return amount <= embeddedAmount;
+        return amount <= embeddedAmount.sum();
     }
 
     public void insertAmount(int amount) {
         insertedAmount += amount;
     }
 
-    public Changes drawChanges() {
-        return new Changes(insertedAmount);
+    public Coins drawChanges() {
+        return embeddedAmount.drawChanges(insertedAmount);
     }
 
     public void purchaseProduct(String name) {
