@@ -21,7 +21,7 @@ public class Coins {
     }
 
     Coins(Map<Coin, Integer> coinCounts) {
-        this.coinCounts = coinCounts;
+        this.coinCounts = new EnumMap<>(coinCounts);
     }
 
     public int sum() {
@@ -36,10 +36,26 @@ public class Coins {
         Map<Coin, Integer> changes = new HashMap<>();
         for (Coin coin : Coin.valuesInDescendingOrder()) {
             int drawCount = drawableCountOf(coin, requestedAmount);
-            changes.put(coin, drawCount);
+            minus(coin, drawCount);
             requestedAmount -= coin.times(drawCount);
+            changes.put(coin, drawCount);
         }
         return new Coins(changes);
+    }
+
+    private void minus(Coin coin, int count) {
+        changeCountOf(coin, countOf(coin) - count);
+    }
+
+    private void changeCountOf(Coin coin, int count) {
+        validateNotNegative(count);
+        coinCounts.put(coin, count);
+    }
+
+    private void validateNotNegative(int number) {
+        if (number < 0) {
+            throw new IllegalArgumentException("동전 개수는 음수가 될 수 없습니다");
+        }
     }
 
     public Map<Coin, Integer> toMap() {

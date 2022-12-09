@@ -73,4 +73,25 @@ public class CoinsTest {
         assertThat(expectedChanges)
                 .allSatisfy((coin, count) -> assertThat(changes.countOf(coin)).isEqualTo(count));
     }
+
+    @Test
+    void 잔돈을_반환하면_그만큼_줄어든다() {
+        Map<Coin, Integer> coinMap = Map.ofEntries(
+                Map.entry(Coin.COIN_500, 5),
+                Map.entry(Coin.COIN_100, 5),
+                Map.entry(Coin.COIN_50, 0),
+                Map.entry(Coin.COIN_10, 3)
+        );
+        Map<Coin, Integer> expectedCoins = Map.ofEntries(
+                Map.entry(Coin.COIN_500, 5),
+                Map.entry(Coin.COIN_100, 1),
+                Map.entry(Coin.COIN_50, 0),
+                Map.entry(Coin.COIN_10, 0)
+        );
+        Coins coins = new Coins(coinMap);
+        coins.drawChanges(450);
+
+        assertThat(expectedCoins)
+                .allSatisfy((coin, count) -> assertThat(coins.countOf(coin)).isEqualTo(count));
+    }
 }
