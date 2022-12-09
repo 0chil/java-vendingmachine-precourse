@@ -22,7 +22,7 @@ public enum Coin {
         return amount;
     }
 
-    public int countDrawableUntil(int givenAmount) {
+    public int countUntil(int givenAmount) {
         return givenAmount / amount;
     }
 

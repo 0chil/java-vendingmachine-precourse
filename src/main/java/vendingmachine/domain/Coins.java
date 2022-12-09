@@ -32,12 +32,12 @@ public class Coins {
         return sum;
     }
 
-    Coins drawChanges(int drawAmount) {
+    Coins drawChanges(int requestedAmount) {
         Map<Coin, Integer> changes = new HashMap<>();
         for (Coin coin : Coin.valuesInDescendingOrder()) {
-            int drawCount = coin.countDrawableUntil(drawAmount);
+            int drawCount = drawableCountOf(coin, requestedAmount);
             changes.put(coin, drawCount);
-            drawAmount -= coin.times(drawCount);
+            requestedAmount -= coin.times(drawCount);
         }
         return new Coins(changes);
     }
@@ -52,5 +52,9 @@ public class Coins {
 
     public int countOf(Coin coin) {
         return coinCounts.getOrDefault(coin, 0);
+    }
+
+    private int drawableCountOf(Coin coin, int requestedAmount) {
+        return Math.min(countOf(coin), coin.countUntil(requestedAmount));
     }
 }
