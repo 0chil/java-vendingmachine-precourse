@@ -7,7 +7,7 @@ import java.util.Map;
 import vendingmachine.constant.Coin;
 
 public class CoinBox {
-    private final Map<Coin, Integer> coinCounts;
+    private final Coins coins;
 
     public CoinBox(int amount) {
         Map<Coin, Integer> coinCounts = new EnumMap<>(Coin.class);
@@ -17,57 +17,39 @@ public class CoinBox {
             coinCounts.put(coin, previousCount + 1);
             amount -= coin.getAmount();
         }
-        this.coinCounts = coinCounts;
+        this.coins = new Coins(coinCounts);
     }
 
     CoinBox(Map<Coin, Integer> coinCounts) {
-        this.coinCounts = new EnumMap<>(coinCounts);
+        this.coins = new Coins(coinCounts);
     }
 
     public int sum() {
-        int sum = 0;
-        for (Coin coin : Coin.values()) {
-            sum += sumOf(coin);
-        }
-        return sum;
+        return coins.sum();
     }
 
-    CoinBox drawChanges(int requestedAmount) {
+    Coins drawChanges(int requestedAmount) {
+        Coins coinChanges = new Coins(getChangesFor(requestedAmount));
+        coins.subtract(coinChanges);
+        return coinChanges;
+    }
+
+    private Map<Coin, Integer> getChangesFor(int requestedAmount) {
         Map<Coin, Integer> changes = new HashMap<>();
         for (Coin coin : Coin.valuesInDescendingOrder()) {
             int drawCount = drawableCountOf(coin, requestedAmount);
-            minus(coin, drawCount);
             requestedAmount -= coin.times(drawCount);
             changes.put(coin, drawCount);
         }
-        return new CoinBox(changes);
+        return changes;
     }
 
     private void minus(Coin coin, int count) {
-        changeCountOf(coin, countOf(coin) - count);
-    }
-
-    private void changeCountOf(Coin coin, int count) {
-        validateNotNegative(count);
-        coinCounts.put(coin, count);
-    }
-
-    private void validateNotNegative(int number) {
-        if (number < 0) {
-            throw new IllegalArgumentException("동전 개수는 음수가 될 수 없습니다");
-        }
-    }
-
-    public Map<Coin, Integer> toMap() {
-        return new EnumMap<>(coinCounts);
-    }
-
-    private int sumOf(Coin coin) {
-        return coin.times(countOf(coin));
+        coins.subtract(coin, count);
     }
 
     public int countOf(Coin coin) {
-        return coinCounts.getOrDefault(coin, 0);
+        return coins.countOf(coin);
     }
 
     private int drawableCountOf(Coin coin, int requestedAmount) {

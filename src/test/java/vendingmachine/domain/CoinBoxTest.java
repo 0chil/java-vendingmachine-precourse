@@ -27,7 +27,7 @@ public class CoinBoxTest {
         );
         int drawAmount = 450;
         CoinBox coinBox = new CoinBox(coinMap);
-        CoinBox changes = coinBox.drawChanges(drawAmount);
+        Coins changes = coinBox.drawChanges(drawAmount);
 
         assertThat(changes.sum()).isEqualTo(drawAmount);
     }
@@ -47,7 +47,7 @@ public class CoinBoxTest {
                 Map.entry(Coin.COIN_10, 0)
         );
         CoinBox coinBox = new CoinBox(coinMap);
-        CoinBox changes = coinBox.drawChanges(450);
+        Coins changes = coinBox.drawChanges(450);
 
         assertThat(expectedChanges)
                 .allSatisfy((coin, count) -> assertThat(changes.countOf(coin)).isEqualTo(count));
@@ -68,7 +68,7 @@ public class CoinBoxTest {
                 Map.entry(Coin.COIN_10, 3)
         );
         CoinBox coinBox = new CoinBox(coinMap);
-        CoinBox changes = coinBox.drawChanges(450);
+        Coins changes = coinBox.drawChanges(450);
 
         assertThat(expectedChanges)
                 .allSatisfy((coin, count) -> assertThat(changes.countOf(coin)).isEqualTo(count));

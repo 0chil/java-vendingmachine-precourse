@@ -18,7 +18,7 @@ public class VendingMachine {
         insertedAmount += amount;
     }
 
-    public CoinBox drawChanges() {
+    public Coins drawChanges() {
         return embeddedAmount.drawChanges(insertedAmount);
     }
 
