@@ -21,25 +21,27 @@ public class Products {
         this.products = productsMap;
     }
 
-    public void sell(String name) {
-        validateName(name);
-        products.get(name).sell();
+    private Product find(String name) {
+        validateNameExists(name);
+        return products.get(name);
     }
 
-    public boolean isSoldOut(String name) {
-        validateName(name);
-        return products.get(name).isSoldOut();
-    }
-
-    public int priceOf(String name) {
-        validateName(name);
-        return products.get(name).getPrice();
-    }
-
-    private void validateName(String name) {
+    private void validateNameExists(String name) {
         if (!hasProduct(name)) {
             throw new IllegalArgumentException("그런 상품은 없습니다");
         }
+    }
+
+    public void sell(String name) {
+        find(name).sell();
+    }
+
+    public boolean isSoldOut(String name) {
+        return find(name).isSoldOut();
+    }
+
+    public int priceOf(String name) {
+        return find(name).getPrice();
     }
 
     public boolean hasProduct(String name) {
