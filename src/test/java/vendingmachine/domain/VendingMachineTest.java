@@ -15,7 +15,7 @@ public class VendingMachineTest {
     @Test
     void 금액을_투입할_수_있다() {
         VendingMachine vendingMachine = new VendingMachine(new CoinBox(10000), new Products());
-        vendingMachine.insertAmount(new Money(2000));
+        vendingMachine.insertAmount(2000);
 
         assertThat(vendingMachine.drawChanges().sum()).isEqualTo(new Money(2000));
     }
@@ -25,7 +25,7 @@ public class VendingMachineTest {
         Product coke = new Product("콜라", 2000, 1);
         Products products = new Products(List.of(coke));
         VendingMachine vendingMachine = new VendingMachine(new CoinBox(10000), products);
-        vendingMachine.insertAmount(new Money(2000));
+        vendingMachine.insertAmount(2000);
 
         assertThatNoException().isThrownBy(() -> vendingMachine.purchaseProduct("콜라"));
     }
@@ -35,7 +35,7 @@ public class VendingMachineTest {
         Product coke = new Product("콜라", 2000, 1);
         Products products = new Products(List.of(coke));
         VendingMachine vendingMachine = new VendingMachine(new CoinBox(10000), products);
-        vendingMachine.insertAmount(new Money(2000));
+        vendingMachine.insertAmount(2000);
         vendingMachine.purchaseProduct("콜라");
 
         assertThatIllegalArgumentException().isThrownBy(() -> vendingMachine.purchaseProduct("콜라"));
@@ -45,7 +45,7 @@ public class VendingMachineTest {
     void 상품이_없으면_오류를_던진다() {
         Products products = new Products(List.of(new Product("콜라", 2000, 1)));
         VendingMachine vendingMachine = new VendingMachine(new CoinBox(10000), products);
-        vendingMachine.insertAmount(new Money(2000));
+        vendingMachine.insertAmount(2000);
 
         assertThatIllegalArgumentException().isThrownBy(() -> vendingMachine.purchaseProduct("사이다"));
     }

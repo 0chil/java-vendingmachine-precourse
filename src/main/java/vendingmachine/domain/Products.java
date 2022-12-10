@@ -51,4 +51,14 @@ public class Products {
         }
         return false;
     }
+
+    public boolean isAffordableWith(String name, Money money) {
+        Product product = find(name);
+        return product.isAffordableWith(money);
+    }
+
+    public boolean isSoldOut(String name) {
+        Product product = find(name);
+        return product.isSoldOut();
+    }
 }
