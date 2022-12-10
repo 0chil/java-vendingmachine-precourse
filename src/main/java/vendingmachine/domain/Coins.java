@@ -23,19 +23,19 @@ public class Coins {
         return new Coins(countMap);
     }
 
-    public Coins subtract(Coin coin, Count count) {
-        return changeCountOf(coin, countOf(coin).decrease(count));
+    private Coins subtract(Coin coin, Count count) {
+        return changeCountOf(coin, count(coin).decrease(count));
     }
 
-    public Coins subtract(Coins coins) {
+    public Coins subtract(Coins otherCoins) {
         Coins result = this;
-        for (Coin coin : coins.coinCounts.keySet()) {
-            result = result.subtract(coin, coins.countOf(coin));
+        for (Coin coin : otherCoins.coinCounts.keySet()) {
+            result = result.subtract(coin, otherCoins.count(coin));
         }
         return result;
     }
 
-    public Count countOf(Coin coin) {
+    public Count count(Coin coin) {
         return coinCounts.getOrDefault(coin, new Count(0));
     }
 
@@ -48,7 +48,7 @@ public class Coins {
     public Money sum() {
         Money sum = new Money();
         for (Coin coin : coinCounts.keySet()) {
-            sum = sum.add(coin.times(countOf(coin)));
+            sum = sum.add(coin.times(count(coin)));
         }
         return sum;
     }

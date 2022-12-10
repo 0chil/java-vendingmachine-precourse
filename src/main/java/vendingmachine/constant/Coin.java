@@ -1,6 +1,5 @@
 package vendingmachine.constant;
 
-import java.lang.module.ModuleFinder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,7 +20,7 @@ public enum Coin {
         this.amount = amount;
     }
 
-    public Money amount() {
+    public Money asMoney() {
         return new Money(amount);
     }
 
@@ -38,7 +37,7 @@ public enum Coin {
     }
 
     private boolean isAffordableWith(Money money) {
-        return amount().isAffordableWith(money);
+        return asMoney().isAffordableWith(money);
     }
 
     public static List<Coin> valuesInDescendingOrder() {

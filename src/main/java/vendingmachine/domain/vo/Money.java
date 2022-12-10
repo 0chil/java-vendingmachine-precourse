@@ -32,7 +32,7 @@ public class Money {
     }
 
     public Money subtract(Coin coin) {
-        return this.subtract(coin.amount());
+        return this.subtract(coin.asMoney());
     }
 
     public int amount() {

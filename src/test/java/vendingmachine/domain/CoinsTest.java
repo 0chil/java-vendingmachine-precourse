@@ -23,17 +23,20 @@ public class CoinsTest {
     @CsvSource(value = {"5,0", "3,2"})
     void 동전을_뺄_수_있다(int subtractCount, int expectedCount) {
         Map<Coin, Integer> coinMap = ofEntries(entry(COIN_100, 5));
-        Coins coins = Coins.create(coinMap).subtract(COIN_100, new Count(subtractCount));
+        Coins coins = Coins.create(coinMap);
+        Coins coinsToSubtract = new Coins(ofEntries(entry(COIN_100, new Count(subtractCount))));
+        coins = coins.subtract(coinsToSubtract);
 
-        assertThat(coins.countOf(COIN_100)).isEqualTo(new Count(expectedCount));
+        assertThat(coins.count(COIN_100)).isEqualTo(new Count(expectedCount));
     }
 
     @Test
     void 가진_동전_이상으로_뺄_수_없다() {
         Map<Coin, Integer> coinMap = ofEntries(entry(COIN_100, 5));
         Coins coins = Coins.create(coinMap);
+        Coins coinsToSubtract = new Coins(ofEntries(entry(COIN_100, new Count(6))));
 
-        assertThatIllegalArgumentException().isThrownBy(() -> coins.subtract(COIN_100, new Count(6)));
+        assertThatIllegalArgumentException().isThrownBy(() -> coins.subtract(coinsToSubtract));
     }
 
     @Test
@@ -41,7 +44,7 @@ public class CoinsTest {
         Map<Coin, Integer> coinMap = ofEntries(entry(COIN_100, 5));
         Coins coins = Coins.create(coinMap);
 
-        assertThat(coins.countOf(COIN_100)).isEqualTo(new Count(5));
+        assertThat(coins.count(COIN_100)).isEqualTo(new Count(5));
     }
 
     @Test

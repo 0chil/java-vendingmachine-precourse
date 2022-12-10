@@ -52,11 +52,11 @@ public class CoinBox {
         return changes;
     }
 
-    public int countOf(Coin coin) {
-        return coins.countOf(coin).count();
+    public int count(Coin coin) {
+        return coins.count(coin).count();
     }
 
     private Count drawableCountOf(Coin coin, Money requestedAmount) {
-        return new Count(min(countOf(coin), coin.countUntil(requestedAmount)));
+        return new Count(min(count(coin), coin.countUntil(requestedAmount)));
     }
 }
