@@ -6,6 +6,7 @@ import java.util.Map;
 
 import vendingmachine.constant.Coin;
 import vendingmachine.domain.vo.Count;
+import vendingmachine.domain.vo.Money;
 
 public class CoinBox {
     private Coins coins;

@@ -1,5 +1,7 @@
 package vendingmachine.domain;
 
+import vendingmachine.domain.vo.Money;
+
 public class VendingMachine {
     private final CoinBox coinBox;
     private Money insertedMoney = new Money();

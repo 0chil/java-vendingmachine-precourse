@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import camp.nextstep.edu.missionutils.Randoms;
-import vendingmachine.domain.Money;
+import vendingmachine.domain.vo.Money;
 
 public enum Coin {
     COIN_500(500),

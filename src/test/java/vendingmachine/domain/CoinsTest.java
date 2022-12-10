@@ -15,6 +15,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import vendingmachine.constant.Coin;
 import vendingmachine.domain.vo.Count;
+import vendingmachine.domain.vo.Money;
 
 public class CoinsTest {
 

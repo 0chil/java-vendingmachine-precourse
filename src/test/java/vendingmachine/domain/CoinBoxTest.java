@@ -7,6 +7,7 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 import vendingmachine.constant.Coin;
+import vendingmachine.domain.vo.Money;
 
 public class CoinBoxTest {
 

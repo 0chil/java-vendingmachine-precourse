@@ -1,4 +1,4 @@
-package vendingmachine.domain;
+package vendingmachine.domain.vo;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -6,6 +6,8 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import vendingmachine.domain.vo.Money;
 
 public class MoneyTest {
     @ParameterizedTest

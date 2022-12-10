@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import vendingmachine.domain.vo.Money;
+
 public class Products {
 
     private final Map<String, Product> products;

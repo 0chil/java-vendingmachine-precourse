@@ -3,6 +3,7 @@ package vendingmachine.domain;
 import java.util.Objects;
 
 import vendingmachine.domain.vo.Count;
+import vendingmachine.domain.vo.Money;
 
 public class Product {
 
