@@ -7,6 +7,7 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 import vendingmachine.constant.Coin;
+import vendingmachine.domain.vo.Count;
 import vendingmachine.domain.vo.Money;
 
 public class CoinBoxTest {
@@ -52,7 +53,7 @@ public class CoinBoxTest {
         Coins changes = coinBox.drawChanges(new Money(450));
 
         assertThat(expectedChanges)
-                .allSatisfy((coin, count) -> assertThat(changes.getCount(coin)).isEqualTo(count));
+                .allSatisfy((coin, count) -> assertThat(changes.countOf(coin)).isEqualTo(new Count(count)));
     }
 
     @Test
@@ -73,7 +74,7 @@ public class CoinBoxTest {
         Coins changes = coinBox.drawChanges(new Money(450));
 
         assertThat(expectedChanges)
-                .allSatisfy((coin, count) -> assertThat(changes.getCount(coin)).isEqualTo(count));
+                .allSatisfy((coin, count) -> assertThat(changes.countOf(coin)).isEqualTo(new Count(count)));
     }
 
     @Test

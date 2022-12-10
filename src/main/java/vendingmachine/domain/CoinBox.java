@@ -1,5 +1,7 @@
 package vendingmachine.domain;
 
+import static java.lang.Math.min;
+
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,11 +19,11 @@ public class CoinBox {
 
     public CoinBox(Money money) {
         Map<Coin, Count> coinCounts = new EnumMap<>(Coin.class);
-        while (money.amount() != 0) {
+        while (!money.isEmpty()) {
             Coin coin = Coin.pickRandomLessOrEqualThan(money);
             Count previousCount = coinCounts.getOrDefault(coin, new Count());
             coinCounts.put(coin, previousCount.increase());
-            money = money.subtract(coin.amount());
+            money = money.subtract(coin);
         }
         this.coins = new Coins(coinCounts);
     }
@@ -35,26 +37,26 @@ public class CoinBox {
     }
 
     Coins drawChanges(Money requestedMoney) {
-        Coins coinChanges = new Coins(getChangesFor(requestedMoney.amount()));
-        coins = coins.subtract(coinChanges);
-        return coinChanges;
+        Coins changes = new Coins(getChangesFor(requestedMoney));
+        coins = coins.subtract(changes);
+        return changes;
     }
 
-    private Map<Coin, Count> getChangesFor(int requestedAmount) {
+    private Map<Coin, Count> getChangesFor(Money requestedAmount) {
         Map<Coin, Count> changes = new HashMap<>();
         for (Coin coin : Coin.valuesInDescendingOrder()) {
-            int drawCount = drawableCountOf(coin, requestedAmount);
-            requestedAmount -= coin.times(drawCount);
-            changes.put(coin, new Count(drawCount));
+            Count drawCount = drawableCountOf(coin, requestedAmount);
+            requestedAmount = requestedAmount.subtract(coin.times(drawCount));
+            changes.put(coin, drawCount);
         }
         return changes;
     }
 
     public int countOf(Coin coin) {
-        return coins.getCount(coin);
+        return coins.countOf(coin).count();
     }
 
-    private int drawableCountOf(Coin coin, int requestedAmount) {
-        return Math.min(countOf(coin), coin.countUntil(requestedAmount));
+    private Count drawableCountOf(Coin coin, Money requestedAmount) {
+        return new Count(min(countOf(coin), coin.countUntil(requestedAmount)));
     }
 }

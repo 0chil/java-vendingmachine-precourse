@@ -25,7 +25,7 @@ public class CoinsTest {
         Map<Coin, Integer> coinMap = ofEntries(entry(COIN_100, 5));
         Coins coins = Coins.create(coinMap).subtract(COIN_100, new Count(subtractCount));
 
-        assertThat(coins.getCount(COIN_100)).isEqualTo(expectedCount);
+        assertThat(coins.countOf(COIN_100)).isEqualTo(new Count(expectedCount));
     }
 
     @Test
@@ -41,7 +41,7 @@ public class CoinsTest {
         Map<Coin, Integer> coinMap = ofEntries(entry(COIN_100, 5));
         Coins coins = Coins.create(coinMap);
 
-        assertThat(coins.getCount(COIN_100)).isEqualTo(5);
+        assertThat(coins.countOf(COIN_100)).isEqualTo(new Count(5));
     }
 
     @Test

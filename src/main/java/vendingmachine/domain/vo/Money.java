@@ -1,5 +1,7 @@
 package vendingmachine.domain.vo;
 
+import vendingmachine.constant.Coin;
+
 public class Money {
 
     private static final int ZERO = 0;
@@ -29,8 +31,16 @@ public class Money {
         return new Money(this.amount - money.amount);
     }
 
+    public Money subtract(Coin coin) {
+        return this.subtract(coin.amount());
+    }
+
     public int amount() {
         return amount;
+    }
+
+    public boolean isEmpty() {
+        return amount == ZERO;
     }
 
     public boolean isAffordableWith(Money money) {

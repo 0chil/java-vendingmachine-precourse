@@ -35,11 +35,7 @@ public class Coins {
         return result;
     }
 
-    public int getCount(Coin coin) {
-        return countOf(coin).count();
-    }
-
-    private Count countOf(Coin coin) {
+    public Count countOf(Coin coin) {
         return coinCounts.getOrDefault(coin, new Count(0));
     }
 
@@ -50,10 +46,10 @@ public class Coins {
     }
 
     public Money sum() {
-        int sum = 0;
+        Money sum = new Money();
         for (Coin coin : coinCounts.keySet()) {
-            sum += coin.times(getCount(coin));
+            sum = sum.add(coin.times(countOf(coin)));
         }
-        return new Money(sum);
+        return sum;
     }
 }

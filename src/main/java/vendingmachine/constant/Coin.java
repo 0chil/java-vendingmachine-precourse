@@ -1,10 +1,12 @@
 package vendingmachine.constant;
 
+import java.lang.module.ModuleFinder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import camp.nextstep.edu.missionutils.Randoms;
+import vendingmachine.domain.vo.Count;
 import vendingmachine.domain.vo.Money;
 
 public enum Coin {
@@ -23,12 +25,16 @@ public enum Coin {
         return new Money(amount);
     }
 
-    public int countUntil(int givenAmount) {
-        return givenAmount / amount;
+    public int countUntil(Money money) {
+        return money.amount() / amount;
     }
 
     public int times(int multiplier) {
         return amount * multiplier;
+    }
+
+    public Money times(Count count) {
+        return new Money(this.times(count.count()));
     }
 
     private boolean isAffordableWith(Money money) {
