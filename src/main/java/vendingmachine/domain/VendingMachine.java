@@ -10,8 +10,8 @@ public class VendingMachine {
         this.products = products;
     }
 
-    public void insertAmount(int amount) {
-        insertedMoney = insertedMoney.add(amount);
+    public void insertAmount(Money money) {
+        insertedMoney = insertedMoney.add(money);
     }
 
     public Coins drawChanges() {
@@ -21,13 +21,5 @@ public class VendingMachine {
     public void purchaseProduct(String name) {
         products.sell(name);
         insertedMoney = insertedMoney.subtract(products.priceOf(name));
-    }
-
-    public boolean hasStockOf(String name) {
-        return !products.isSoldOut(name);
-    }
-
-    public int getLeftAmount() {
-        return insertedMoney.amount();
     }
 }

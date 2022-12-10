@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import camp.nextstep.edu.missionutils.Randoms;
+import vendingmachine.domain.Money;
 
 public enum Coin {
     COIN_500(500),
@@ -18,8 +19,8 @@ public enum Coin {
         this.amount = amount;
     }
 
-    public int amount() {
-        return amount;
+    public Money amount() {
+        return new Money(amount);
     }
 
     public int countUntil(int givenAmount) {
@@ -30,8 +31,8 @@ public enum Coin {
         return amount * multiplier;
     }
 
-    private boolean isAmountLessOrEqualThan(int amount) {
-        return this.amount <= amount;
+    private boolean isAffordableWith(Money money) {
+        return amount().isAffordableWith(money);
     }
 
     public static List<Coin> valuesInDescendingOrder() {
@@ -40,10 +41,10 @@ public enum Coin {
                 .collect(Collectors.toList());
     }
 
-    public static Coin pickRandomLessOrEqualThan(int amount) {
+    public static Coin pickRandomLessOrEqualThan(Money money) {
         List<Integer> pickableAmounts = Arrays.stream(values())
-                .filter(coin -> coin.isAmountLessOrEqualThan(amount))
-                .map(Coin::amount)
+                .filter(coin -> coin.isAffordableWith(money))
+                .map(coin -> coin.amount)
                 .collect(Collectors.toList());
         return Coin.valueOf(Randoms.pickNumberInList(pickableAmounts));
     }

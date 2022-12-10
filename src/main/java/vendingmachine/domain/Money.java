@@ -21,16 +21,20 @@ public class Money {
         }
     }
 
-    public Money add(int amount) {
-        return new Money(this.amount + amount);
+    public Money add(Money money) {
+        return new Money(this.amount + money.amount);
     }
 
-    public Money subtract(int amount) {
-        return new Money(this.amount - amount);
+    public Money subtract(Money money) {
+        return new Money(this.amount - money.amount);
     }
 
     public int amount() {
         return amount;
+    }
+
+    public boolean isAffordableWith(Money money) {
+        return amount <= money.amount;
     }
 
     @Override

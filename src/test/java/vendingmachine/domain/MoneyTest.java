@@ -13,21 +13,21 @@ public class MoneyTest {
     void 금액을_추가할_수_있다(int initial, int addAmount, int expectedAmount) {
         Money money = new Money(initial);
 
-        assertThat(money.add(addAmount)).isEqualTo(new Money(expectedAmount));
+        assertThat(money.add(new Money(addAmount))).isEqualTo(new Money(expectedAmount));
     }
 
     @Test
     void 금액을_뺄_수_있다() {
         Money money = new Money(1500);
 
-        assertThat(money.subtract(1000)).isEqualTo(new Money(500));
+        assertThat(money.subtract(new Money(1000))).isEqualTo(new Money(500));
     }
 
     @Test
     void 기존_금액_이상_뺼_수_없다() {
         Money money = new Money(1500);
 
-        assertThatIllegalArgumentException().isThrownBy(() -> money.subtract(1501));
+        assertThatIllegalArgumentException().isThrownBy(() -> money.subtract(new Money(1501)));
     }
 
     @Test

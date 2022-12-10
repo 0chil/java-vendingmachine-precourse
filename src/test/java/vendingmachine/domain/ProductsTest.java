@@ -13,6 +13,14 @@ class ProductsTest {
         List<Product> productList = List.of(new Product("상품명", 2000, 1));
         Products products = new Products(productList);
 
-        assertThat(products.hasProduct("상품명")).isTrue();
+        assertThat(products.isAnyAvailableWith(new Money(2000))).isTrue();
+    }
+
+    @Test
+    void 판매가_가능한지_알_수_있다() {
+        List<Product> productList = List.of(new Product("상품명", 2000, 0));
+        Products products = new Products(productList);
+
+        assertThat(products.isAnyAvailableWith(new Money(2000))).isFalse();
     }
 }

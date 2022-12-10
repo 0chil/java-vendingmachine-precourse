@@ -52,7 +52,11 @@ public class Product {
         return name;
     }
 
-    public int getPrice() {
-        return price.amount();
+    public Money getPrice() {
+        return price;
+    }
+
+    public boolean isAffordableWith(Money money) {
+        return price.isAffordableWith(money);
     }
 }

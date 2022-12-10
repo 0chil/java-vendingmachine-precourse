@@ -22,12 +22,13 @@ public class Products {
     }
 
     private Product find(String name) {
-        validateNameExists(name);
-        return products.get(name);
+        Product product = products.get(name);
+        validateNotNull(product);
+        return product;
     }
 
-    private void validateNameExists(String name) {
-        if (!hasProduct(name)) {
+    private void validateNotNull(Product product) {
+        if (Objects.isNull(product)) {
             throw new IllegalArgumentException("그런 상품은 없습니다");
         }
     }
@@ -36,15 +37,16 @@ public class Products {
         find(name).sell();
     }
 
-    public boolean isSoldOut(String name) {
-        return find(name).isSoldOut();
-    }
-
-    public int priceOf(String name) {
+    public Money priceOf(String name) {
         return find(name).getPrice();
     }
 
-    public boolean hasProduct(String name) {
-        return Objects.nonNull(products.get(name));
+    public boolean isAnyAvailableWith(Money money) {
+        for (Product product : products.values()) {
+            if (!product.isSoldOut() && product.isAffordableWith(money)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

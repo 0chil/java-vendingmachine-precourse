@@ -17,7 +17,7 @@ public class CoinBox {
     public CoinBox(Money money) {
         Map<Coin, Count> coinCounts = new EnumMap<>(Coin.class);
         while (money.amount() != 0) {
-            Coin coin = Coin.pickRandomLessOrEqualThan(money.amount());
+            Coin coin = Coin.pickRandomLessOrEqualThan(money);
             Count previousCount = coinCounts.getOrDefault(coin, new Count());
             coinCounts.put(coin, previousCount.increase());
             money = money.subtract(coin.amount());
